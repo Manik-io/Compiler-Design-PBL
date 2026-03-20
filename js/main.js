@@ -1,3 +1,4 @@
+//newer updated
 function runParser() {
   var grammarText = document.getElementById("grammar-input").value.trim();
   var inputText = document.getElementById("input-string").value.trim();
