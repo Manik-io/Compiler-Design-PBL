@@ -1,4 +1,4 @@
-//lalr(1)
+//lalr(1) 
 function lr1ItemKey(item) {
   // Har LR(1) item ke liye unique pehchan (LHS -> RHS @ Dot, Lookahead)
   return item.prod.lhs + "->" + item.prod.rhs.join(" ") + "@" + item.dot + "," + item.lookahead;
@@ -29,10 +29,10 @@ function lr1Closure(items, grammar, firstSets) {
       var firstBeta = firstOfSequence(beta, firstSets);
 
       for (var j = 0; j < grammar.prods.length; j++) {
-        if (grammar.prods[j].lhs !== sym) continue;
+        if (grammar.prods[j].lhs !== sym) {continue;}
 
         for (var la of firstBeta) {
-          if (la === EPSILON) continue;
+          if (la === EPSILON) {continue;}
 
           var ni = { prod: grammar.prods[j], dot: 0, lookahead: la };
           var k = lr1ItemKey(ni);
@@ -62,7 +62,9 @@ function lr1Goto(items, sym, grammar, firstSets) {
     }
   }
   // Nayi position ke baad closure calculate karna zaroori hai
-  if (moved.length > 0) return lr1Closure(moved, grammar, firstSets);
+  if (moved.length > 0) {
+    return lr1Closure(moved, grammar, firstSets);
+  }
   return [];
 }
 
