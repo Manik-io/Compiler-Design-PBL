@@ -168,3 +168,4 @@ function powerRow(prop, vals) {
   }
   return '<tr><td style="border:1px solid #1e293b;padding:5px 10px;color:#94a3b8;">' + prop + "</td>" + cells + "</tr>";
 }
+// update render compare

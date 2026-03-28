@@ -44,3 +44,4 @@ function renderProductions(grammar, title, extraClass) {
   html += "</div>";
   return html;
 }
+// update render grammar
