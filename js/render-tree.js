@@ -1,3 +1,24 @@
+
+function renderTreeVisual(node, grammar) {
+  var isNT  = grammar.nonTerminals.has(node.label);
+  var isEps = node.label === EPSILON;
+  var cls   = isEps ? "node-eps" : isNT ? "node-nt" : "node-t";
+
+  var html = '<div class="node-wrap">';
+  html += '<div class="node-label ' + cls + '">' + escHtml(node.label) + "</div>";
+
+  if (node.children.length > 0) {
+    html += '<div class="v-line"></div><div class="children-row">';
+    for (var i = 0; i < node.children.length; i++) {
+      html += '<div class="child-col"><div class="v-line"></div>';
+      html += renderTreeVisual(node.children[i], grammar);
+      html += "</div>";
+    }
+    html += "</div>";
+  }
+  html += "</div>";
+  return html;
+}
 function renderParseTree(root, grammar) {
   if (!root) {
     return '<div class="empty-state">' +
@@ -21,25 +42,4 @@ function renderParseTree(root, grammar) {
     '<span style="color:#c084fc;font-weight:bold;">\u25A0 Non-terminal</span>' +
     '<span style="color:#86efac;font-weight:bold;">\u25A0 Terminal</span>' +
     "</div>";
-}
-
-function renderTreeVisual(node, grammar) {
-  var isNT  = grammar.nonTerminals.has(node.label);
-  var isEps = node.label === EPSILON;
-  var cls   = isEps ? "node-eps" : isNT ? "node-nt" : "node-t";
-
-  var html = '<div class="node-wrap">';
-  html += '<div class="node-label ' + cls + '">' + escHtml(node.label) + "</div>";
-
-  if (node.children.length > 0) {
-    html += '<div class="v-line"></div><div class="children-row">';
-    for (var i = 0; i < node.children.length; i++) {
-      html += '<div class="child-col"><div class="v-line"></div>';
-      html += renderTreeVisual(node.children[i], grammar);
-      html += "</div>";
-    }
-    html += "</div>";
-  }
-  html += "</div>";
-  return html;
 }
