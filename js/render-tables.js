@@ -1,43 +1,3 @@
-function renderLL1Table(grammar, ll1Result) {
-  var table = ll1Result.table;
-  var conflicts = ll1Result.conflicts;
-  var nts   = Array.from(grammar.nonTerminals);
-  var terms = Array.from(grammar.terminals).concat([END]);
-
-  var html = ll1Result.isLL1
-    ? '<div class="alert-ok">\u2713 Grammar is LL(1) \u2014 no conflicts in the parsing table.</div>'
-    : '<div class="alert-error">\u2717 ' + conflicts.length + " conflict(s): " + Array.from(new Set(conflicts)).join(", ") + "</div>";
-
-  html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th class="hdr-state">NT \\ Terminal</th>';
-  for (var i = 0; i < terms.length; i++) {
-    html += '<th class="hdr-action hdr-term">' + terms[i] + "</th>";
-  }
-  html += "</tr></thead><tbody>";
-
-  for (var n = 0; n < nts.length; n++) {
-    html += '<tr><td class="td-state">' + nts[n] + "</td>";
-    for (var i = 0; i < terms.length; i++) {
-      var row  = table.get(nts[n]);
-      var cell = row ? row.get(terms[i]) : null;
-      if (!cell || cell.length === 0) {
-        html += '<td class="td-empty">\u2014</td>';
-      } else if (cell.length > 1) {
-        var texts = [];
-        for (var j = 0; j < cell.length; j++) texts.push(nts[n] + "\u2192" + cell[j].rhs.join(" "));
-        html += '<td class="td-conflict">' + texts.join("<br>") + "</td>";
-      } else {
-        html += '<td class="td-shift">' + nts[n] + " \u2192 " + cell[0].rhs.join(" ") + "</td>";
-      }
-    }
-    html += "</tr>";
-  }
-
-  html += "</tbody></table></div>";
-  html += '<div style="font-size:10px;color:#475569;margin-top:8px;">M[A, a] = production to expand A when next token is a. Red cells = conflict (not LL(1)).</div>';
-  return html;
-}
-
 function renderLRTable(states, grammar, actionMap, gotoMap, conflicts, parserName) {
   var terms = Array.from(grammar.terminals).concat([END]);
   var nts   = Array.from(grammar.nonTerminals);
@@ -98,3 +58,46 @@ function renderLRTable(states, grammar, actionMap, gotoMap, conflicts, parserNam
   html += '<div style="font-size:10px;color:#475569;margin-top:8px;"><b>sN</b>=Shift\u2192state N &nbsp; <b>r:A\u2192\u03b1</b>=Reduce &nbsp; <b>ACC</b>=Accept &nbsp; <b>\u2014</b>=Error</div>';
   return html;
 }
+//neew function adds
+
+function renderLL1Table(grammar, ll1Result) {
+  var table = ll1Result.table;
+  var conflicts = ll1Result.conflicts;
+  var nts   = Array.from(grammar.nonTerminals);
+  var terms = Array.from(grammar.terminals).concat([END]);
+
+  var html = ll1Result.isLL1
+    ? '<div class="alert-ok">\u2713 Grammar is LL(1) \u2014 no conflicts in the parsing table.</div>'
+    : '<div class="alert-error">\u2717 ' + conflicts.length + " conflict(s): " + Array.from(new Set(conflicts)).join(", ") + "</div>";
+
+  html += '<div class="table-wrap"><table><thead><tr>';
+  html += '<th class="hdr-state">NT \\ Terminal</th>';
+  for (var i = 0; i < terms.length; i++) {
+    html += '<th class="hdr-action hdr-term">' + terms[i] + "</th>";
+  }
+  html += "</tr></thead><tbody>";
+
+  for (var n = 0; n < nts.length; n++) {
+    html += '<tr><td class="td-state">' + nts[n] + "</td>";
+    for (var i = 0; i < terms.length; i++) {
+      var row  = table.get(nts[n]);
+      var cell = row ? row.get(terms[i]) : null;
+      if (!cell || cell.length === 0) {
+        html += '<td class="td-empty">\u2014</td>';
+      } else if (cell.length > 1) {
+        var texts = [];
+        for (var j = 0; j < cell.length; j++) texts.push(nts[n] + "\u2192" + cell[j].rhs.join(" "));
+        html += '<td class="td-conflict">' + texts.join("<br>") + "</td>";
+      } else {
+        html += '<td class="td-shift">' + nts[n] + " \u2192 " + cell[0].rhs.join(" ") + "</td>";
+      }
+    }
+    html += "</tr>";
+  }
+
+  html += "</tbody></table></div>";
+  html += '<div style="font-size:10px;color:#475569;margin-top:8px;">M[A, a] = production to expand A when next token is a. Red cells = conflict (not LL(1)).</div>';
+  return html;
+}
+
+
