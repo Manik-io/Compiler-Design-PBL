@@ -64,3 +64,4 @@ function renderStateDetail(state, grammar) {
   }
   return html;
 }
+// update render states

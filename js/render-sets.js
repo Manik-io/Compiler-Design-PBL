@@ -28,3 +28,4 @@ function renderFirstFollow(grammar, firstSets, followSets) {
     "FOLLOW(A) = terminals that can appear immediately after A." +
     "</div>";
 }
+// update render sets
