@@ -1,3 +1,4 @@
+//updated a var
 function renderLRTable(states, grammar, actionMap, gotoMap, conflicts, parserName) {
   var terms = Array.from(grammar.terminals).concat([END]);
   var nts   = Array.from(grammar.nonTerminals);
