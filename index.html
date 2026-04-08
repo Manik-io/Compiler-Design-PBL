@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grammar Parser Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">Grammar Parser Visualizer</div>
+    <div class="subtitle">LL(1) · LR(0) · SLR(1) · LALR(1) — grammar checks, transforms &amp; parse trees</div>
+  </div>
+  <div class="parser-btns">
+    <button class="parser-btn active" data-parser="ll1"   onclick="setParser('ll1')">LL(1)</button>
+    <button class="parser-btn"        data-parser="lr0"   onclick="setParser('lr0')">LR(0)</button>
+    <button class="parser-btn"        data-parser="slr1"  onclick="setParser('slr1')">SLR(1)</button>
+    <button class="parser-btn"        data-parser="lalr1" onclick="setParser('lalr1')">LALR(1)</button>
+  </div>
+</header>
+<main>
+  <div class="input-grid">
+    <div class="card">
+      <label class="card-label">Grammar (one rule per line, use | for alternatives)</label>
+      <textarea id="grammar-input"
+        placeholder="E -> E + T | T&#10;T -> T * F | F&#10;F -> ( E ) | id"
+        spellcheck="false"></textarea>
+      <div class="examples">
+        <span class="ex-label">Examples:</span>
+        <button class="ex-btn" onclick="loadExample('arithmetic')">Arithmetic (ambiguous)</button>
+        <button class="ex-btn" onclick="loadExample('simple')">Simple LR</button>
+        <button class="ex-btn" onclick="loadExample('ifelse')">Dangling Else</button>
+        <button class="ex-btn" onclick="loadExample('balanced')">Balanced Parens</button>
+      </div>
+    </div>
+    <div class="card">
+      <label class="card-label">Input String (space-separated tokens)</label>
+      <input type="text" id="input-string" placeholder="id + id * id" />
+      <div class="info-box">
+        Separate tokens with spaces. E.g. <code style="color:#86efac;">id + id</code> not <code style="color:#f87171;">id+id</code>
+      </div>
+      <div class="info-box" id="parser-info">
+        Selected parser: <span class="hl">LL(1)</span><br>
+        Top-down. Grammar must not have left recursion or ambiguity.
+      </div>
+      <button class="run-btn" onclick="runParser()">&#9654; Run Parser</button>
+    </div>
+  </div>
+  <div id="error-area"></div>
+  <div id="checks-area"></div>
+  <div id="results-area" style="margin-top:16px;"></div>
+</main>
+
+<script src="js/constants.js"></script>
+<script src="js/grammar.js"></script>
+<script src="js/first-follow.js"></script>
+<script src="js/ll1.js"></script>
+<script src="js/lr-core.js"></script>
+<script src="js/lr-tables.js"></script>
+<script src="js/lr-lalr.js"></script>
+<script src="js/lr-parse.js"></script>
+<script src="js/render-utils.js"></script>
+<script src="js/render-grammar.js"></script>
+<script src="js/render-sets.js"></script>
+<script src="js/render-tables.js"></script>
+<script src="js/render-states.js"></script>
+<script src="js/render-steps.js"></script>
+<script src="js/render-tree.js"></script>
+<script src="js/render-compare.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  var _parserDescs = {
+    ll1:   "Selected parser: <span class='hl'>LL(1)</span><br>Top-down. Grammar must not have left recursion or ambiguity.",
+    lr0:   "Selected parser: <span class='hl'>LR(0)</span><br>Bottom-up. Reduces on all symbols (no lookahead). Most restrictive.",
+    slr1:  "Selected parser: <span class='hl'>SLR(1)</span><br>LR(0) + FOLLOW sets for reductions. Fewer conflicts than LR(0).",
+    lalr1: "Selected parser: <span class='hl'>LALR(1)</span><br>Merged LR(1) states. More powerful than SLR(1). Used in Yacc/Bison.",
+  };
+  var _origSetParser = window.setParser;
+  window.setParser = function(type) {
+    _origSetParser(type);
+    var el = document.getElementById("parser-info");
+    if (el && _parserDescs[type]) el.innerHTML = _parserDescs[type];
+  };
+</script>
+
+</body>
+</html>
