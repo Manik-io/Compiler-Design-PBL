@@ -109,3 +109,4 @@ function parseLR(grammar, action, gotoMap, inputTokens) {
     if (step > 600) return { steps: steps, accepted: false, error: "Too many steps", tree: null };
   }
 }
+// update lr-parse.js

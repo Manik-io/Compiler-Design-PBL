@@ -133,3 +133,4 @@ function stackStr(stack) {
   // Parsing table UI ke liye stack ke symbols ko string mein convert kar rahe hain
   return stack.map(s => s.sym).join(" ");
 }
+// update ll1.js
