@@ -389,3 +389,4 @@ function buildGrammar(prods, startSymbol) {
 
   return { prods: prods, nonTerminals: nonTerminals, terminals: terminals, start: startSymbol };
 }
+
