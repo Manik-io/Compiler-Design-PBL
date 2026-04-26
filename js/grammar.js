@@ -1,6 +1,6 @@
-// =====================================================================
+
 // GRAMMAR PARSER - Context Free Grammar ke liye tools
-// =====================================================================
+
 
 function parseGrammar(text) {
   var lines = text.split("\n");
@@ -59,11 +59,9 @@ function parseGrammar(text) {
   return { grammar: { prods: prods, nonTerminals: nonTerminals, terminals: terminals, start: prods[0].lhs } };
 }
 
-// =====================================================================
 // LEFT RECURSION CHECK
 // A → A α jaisi production = Direct Left Recursion (parser loop mein phans jata hai)
 // A → B α, B → A β jaisi chain = Indirect Left Recursion
-// =====================================================================
 
 function checkLeftRecursion(grammar) {
   var issues = [];
@@ -116,11 +114,9 @@ function hasIndirectLeftRecursion(grammar, target) {
   return false;
 }
 
-// =====================================================================
 // LEFT FACTORING CHECK
 // Jab ek non-terminal ke 2+ productions same symbol se start karein
 // jaise: A → a b | a c — dono 'a' se shuru hote hain, parser confuse ho jata hai
-// =====================================================================
 
 function checkLeftFactoring(grammar) {
   var issues = [];
@@ -144,7 +140,6 @@ function checkLeftFactoring(grammar) {
   return issues;
 }
 
-// =====================================================================
 // AMBIGUITY CHECK — FIRST/FIRST aur FIRST/FOLLOW conflicts
 //
 // FIRST/FIRST conflict: Ek non-terminal ke 2 productions ka FIRST set overlap kare
@@ -153,7 +148,6 @@ function checkLeftFactoring(grammar) {
 // FIRST/FOLLOW conflict: Kisi production mein epsilon ho aur us non-terminal ka
 //   FOLLOW set FIRST set se overlap kare
 //   → Parser confuse ho jata hai ki epsilon lena hai ya nahi
-// =====================================================================
 
 function checkAmbiguity(grammar, firstSets, followSets) {
   var issues = [];
@@ -201,7 +195,6 @@ function checkAmbiguity(grammar, firstSets, followSets) {
   return issues;
 }
 
-// =====================================================================
 // LEFT RECURSION REMOVAL — Standard Algorithm (Textbook se)
 //
 // Direct left recursion ke liye:
@@ -211,7 +204,6 @@ function checkAmbiguity(grammar, firstSets, followSets) {
 //   A' → α A' | ε
 //
 // Indirect left recursion ke liye pehle substitution karke direct banate hain
-// =====================================================================
 
 function removeLeftRecursion(grammar) {
   var prods = grammar.prods.slice(); // Original ko preserve karne ke liye copy
@@ -289,7 +281,6 @@ function removeLeftRecursion(grammar) {
   return buildGrammar(prods, grammar.start);
 }
 
-// =====================================================================
 // LEFT FACTORING — Common prefix nikaalke naya non-terminal banao
 //
 // Jaise: A → a b c | a b d
@@ -297,7 +288,6 @@ function removeLeftRecursion(grammar) {
 //   banta hai:
 //   A  → a b A'
 //   A' → c | d
-// =====================================================================
 
 function applyLeftFactoring(grammar) {
   var prods = grammar.prods.slice();
@@ -351,9 +341,6 @@ function applyLeftFactoring(grammar) {
   return buildGrammar(prods, grammar.start);
 }
 
-// =====================================================================
-// HELPER FUNCTIONS
-// =====================================================================
 
 // Saari productions mein se sabse lamba common prefix dhundho (pair-wise comparison)
 function longestCommonPrefix(prods) {
