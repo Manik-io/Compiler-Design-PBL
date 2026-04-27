@@ -24,7 +24,7 @@ function buildLL1Table(grammar, firstSets, followSets) {
       if (row.get(t).length > 1) conflicts.push("M[" + lhs + ", " + t + "]");
     }
 
-    // Critical: Agar FIRST mein epsilon hai, toh hum FOLLOW set ki madad lete hain
+    // Agar FIRST mein epsilon hai, toh hum FOLLOW set ki madad lete hain
     if (firstRhs.has(EPSILON)) {
       var follow = followSets.get(lhs) || new Set();
 
